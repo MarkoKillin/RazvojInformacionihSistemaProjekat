@@ -1,0 +1,56 @@
+package com.mudl.backend.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mudl.backend.repositories.KorisnikRepository;
+import com.mudl.backend.repositories.PredmetKorisnikRepository;
+import com.mudl.backend.repositories.PredmetRepository;
+
+import model.Korisnik;
+import model.Predmet;
+import model.Predmetkorisnik;
+
+@Service
+public class AdminService {
+	
+	@Autowired
+	private PredmetRepository pr;
+	
+	@Autowired
+	private KorisnikRepository kr;
+	
+	@Autowired
+	private PredmetKorisnikRepository pkr;
+
+	public int savePredmet(String naziv) {
+		Predmet p = new Predmet();
+		p.setNaziv(naziv);
+		Predmet p1 = pr.save(p);
+		if (p1 != null)
+			return p1.getIdPredmet();
+		return -1;
+	}
+
+	public List<Korisnik> getProfesors() {
+		return kr.getProfesors();
+	}
+
+	public List<Predmet> getPredmets() {
+		return pr.findAll();
+	}
+
+	public int saveProfesor(int idPredmet, int idKorisnik) {
+		Predmetkorisnik pk = new Predmetkorisnik();
+		pk.setBrojBodova(-100);
+		pk.setKorisnik(kr.findById(idPredmet).get());
+		pk.setPredmet(pr.findById(idPredmet).get());
+		Predmetkorisnik pk1 = pkr.save(pk);
+		if(pk1 != null)
+			return pk1.getIdPredmetKorisnik();
+		return -1;
+	}
+
+}

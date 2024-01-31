@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>O nama</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+</head>
+<body>
+
+	<sec:authorize access="hasRole('Profesor')">
+		<%@include file="headers/profesor_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Student')">
+		<%@include file="headers/student_header.jsp"%>
+	</sec:authorize>
+
+	<table style="margin-top: 30px;">
+		<tr>
+			<td></td>
+			<td>Admin</td>
+		</tr>
+		<tr>
+			<th>Ime i prezime</th>
+			<td>Marko Mirković</td>
+		</tr>
+		<tr>
+			<th>Email</th>
+			<td>mirkovicmarko790@gmail.com</td>
+		</tr>
+		<tr>
+			<th>GitHub</th>
+			<td><a href="https://github.com/MarkoKillin">Link do GitHub-a</a></td>
+		</tr>
+		<tr>
+			<th>LinkedIn</th>
+			<td><a href="https://www.linkedin.com/in/marko-mirkovic-a1b7a0160/">Link do LinkedIn-a</a></td>
+		</tr>
+		
+	</table>
+
+</body>
+</html>

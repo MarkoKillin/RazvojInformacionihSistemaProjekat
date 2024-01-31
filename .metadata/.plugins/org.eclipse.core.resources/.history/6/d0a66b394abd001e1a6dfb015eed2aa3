@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tvoja Stranica</title>
+    <link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex; /* Postavljanje navigacije kao fleksibilnog kontejnera */
+            justify-content: center; /* Centriranje stavki navigacije */
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+    <!-- Dodaj ostale stilove, skripte ili meta tagove koje želiš uključiti u header -->
+</head>
+<body>
+
+<header>
+    <h1>Dobrodošli na Moju Stranicu</h1>
+    <nav>
+        <ul>
+            <li><a href="index.jsp">Početna</a></li>
+            <li><a href="about.jsp">O nama</a></li>
+            <li><a href="contact.jsp">Kontakt</a></li>
+            <!-- Dodaj još stavki prema potrebi -->
+        </ul>
+    </nav>
+</header>
+
+<!-- Ovde možeš dodati dodatne elemente koji će biti zajednički za sve stranice -->
+
+</body>
+</html>

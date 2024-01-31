@@ -1,0 +1,178 @@
+package com.mudl.backend.services;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mudl.backend.exceptions.InvalidMethodParameterException;
+import com.mudl.backend.exceptions.InvalidOperationException;
+import com.mudl.backend.repositories.AnketaRepository;
+import com.mudl.backend.repositories.KorisnikRepository;
+import com.mudl.backend.repositories.MaterijalRepository;
+import com.mudl.backend.repositories.PredmetKorisnikRepository;
+import com.mudl.backend.repositories.PredmetRepository;
+import com.mudl.backend.repositories.ZadatakRepository;
+
+import model.Anketa;
+import model.Korisnik;
+import model.Materijal;
+import model.Predmet;
+import model.Predmetkorisnik;
+import model.Zadatak;
+
+@Service
+public class ProfesorService {
+
+	@Autowired
+	private KorisnikRepository kr;
+	
+	@Autowired
+	private PredmetRepository pr;
+	
+	@Autowired
+	private PredmetKorisnikRepository pkr;
+	
+	@Autowired
+	private ZadatakRepository zr;
+	
+	@Autowired
+	private MaterijalRepository mr;
+	
+	@Autowired
+	private AnketaRepository ar;
+	
+	/**
+	 * Trazi korisnika(profesor) koji ima prosledjeno ime
+	 */
+	public Korisnik getProfesor(String name) {
+		return kr.getProfesorByName(name);
+	}
+
+	/**
+	 * Trazi predmete koje predaje prosledjeni profesor
+	 */
+	public List<Predmet> getPredmetForProfesor(Korisnik profesor) {
+		return pr.getPredmetForProfesor(profesor.getUsername());
+	}
+
+	/**
+	 * Trazi studente koji su na predmetu
+	 */
+	public List<Korisnik> getStudentForPredmet(int idPredmet) {
+		return kr.getStudentForPredmet(idPredmet);
+	}
+
+	/**
+	 * Metoda koja dodaje bodove prosledjenom uceniku na prosledjenom predmetu. Ne dozvoljava promenu bodova profesoru i ne dozvoljava prekoracenje bodova.
+	 * 
+	 * @param profesorIme ime profesora koji menja bodove, ne zelimo da profesor koji ne predaje taj predmet menja bodove
+	 * @param idStudent id korisnika(studenta) ciji broj bodova menjamo
+	 * @param idPredmet id predmeta na kom menjamo studentu broj bodova
+	 * @param bodovi Koliko bodova treba dodati na postojece
+	 * @return novu vrednost bodova, ukoliko je doslo do greske u cuvanju vraca -1
+	 * @throws InvalidOperationException ukoliko pokusamo da menjamo bodove profesoru, profesorski bodovi su zakljucani na -100
+	 * @throws InvalidMethodParameterException ukoliko pokusamo da dodamo negativne bodove
+	 */
+	public double addBodoviForStudentOnPredmet(String profesorIme, int idStudent, int idPredmet, double bodovi) throws InvalidOperationException, InvalidMethodParameterException {
+		if(bodovi < 0)
+			throw new InvalidMethodParameterException("Ne mozete uneti negativne bodove.");
+		
+		List<Predmet> predmet = getPredmetForProfesor(getProfesor(profesorIme));
+		boolean predaje = false;
+		for(Predmet p : predmet) {
+			if(p.getIdPredmet() == idPredmet)
+				predaje = true;
+		}
+		if(!predaje)
+			throw new InvalidMethodParameterException("Profesor moze menjati bodove samo na svom predmetu.");
+		
+		Predmetkorisnik pk = pkr.getPredmetkorisnik(idStudent, idPredmet);
+		if(pk.getBrojBodova() == -100)
+			throw new InvalidOperationException("Ne mozete promeniti broj bodova profesoru!");
+		
+		double nb = pk.getBrojBodova() + bodovi;
+		if(nb > 100)
+			nb = 100;
+		pk.setBrojBodova(nb);
+		
+		Predmetkorisnik npk = pkr.save(pk);
+		if(npk != null)
+			return npk.getBrojBodova();
+		else
+			return -1;
+	}
+
+	/**
+	 * Dodaje zadatak na odgovarajuci predmet
+	 * @throws InvalidMethodParameterException 
+	 * 
+	 */
+	public int addZadatak(int idPredmet, String naziv, String sadrzaj, Date rok) throws InvalidMethodParameterException {
+		if(rok.before(new Date()))
+			throw new InvalidMethodParameterException("Rok ne moze biti u proslosti.");
+		Predmet p = pr.findById(idPredmet).get();
+		if(p == null)
+			throw new InvalidMethodParameterException("Ne postoji predmet.");
+		Zadatak z = new Zadatak();
+		z.setNaziv(naziv);
+		z.setSadrzaj(sadrzaj);
+		z.setRokZaPredaju(rok);
+		z.setPredmet(p);
+		
+		Zadatak z1 = zr.save(z);
+		if(z1 != null)
+			return z1.getIdZadatak();
+		return -1;
+	}
+
+	/**
+	 * Dodaje materijal na odgovarajuci predmet
+	 * @throws InvalidMethodParameterException 
+	 * 
+	 */
+	public int addMaterijal(int idPredmet, String naziv, String sadrzaj) throws InvalidMethodParameterException {
+		Predmet p = pr.findById(idPredmet).get();
+		if(p == null)
+			throw new InvalidMethodParameterException("Ne postoji predmet.");
+		
+		Materijal m = new Materijal();
+		m.setNaziv(naziv);
+		m.setSadrzaj(sadrzaj);
+		m.setPredmet(p);
+		
+		Materijal m1 = mr.save(m);
+		if(m1 != null)
+			return m1.getIdMaterijal();
+		return -1;
+	}
+
+	/**
+	 * Dodaje anketu na odgovarajuci predmet
+	 * @throws InvalidMethodParameterException 
+	 * 
+	 */
+	public int addAnketa(int idPredmet, String naziv, String sadrzaj) throws InvalidMethodParameterException {
+		Predmet p = pr.findById(idPredmet).get();
+		if(p == null)
+			throw new InvalidMethodParameterException("Ne postoji predmet.");
+		
+		Anketa a = new Anketa();
+		a.setNaziv(naziv);
+		a.setSadrzaj(sadrzaj);
+		a.setPredmet(p);
+		
+		Anketa a1 = ar.save(a);
+		if(a1 != null)
+			return a1.getIdAnketa();
+		return -1;
+	}
+
+	public int addIzbor(int idAnketa, String naziv) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+}

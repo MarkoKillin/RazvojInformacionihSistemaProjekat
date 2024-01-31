@@ -1,0 +1,5 @@
+package com.mudl.backend.exceptions;
+
+public class InvalidOperationException extends Exception {
+
+}

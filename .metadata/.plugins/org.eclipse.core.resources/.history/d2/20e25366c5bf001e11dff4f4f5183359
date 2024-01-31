@@ -1,0 +1,13 @@
+package com.mudl.backend.services;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class AdminService {
+
+	public int savePredmet(String naziv) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

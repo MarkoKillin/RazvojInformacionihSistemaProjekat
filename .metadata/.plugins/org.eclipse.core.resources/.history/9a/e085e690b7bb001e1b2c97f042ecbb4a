@@ -1,0 +1,57 @@
+package model;
+
+import java.io.Serializable;
+import jakarta.persistence.*;
+
+/**
+ * The primary key class for the predmetstudent database table.
+ * 
+ */
+@Embeddable
+public class PredmetstudentPK implements Serializable {
+	//default serial version id, required for serializable classes.
+	private static final long serialVersionUID = 1L;
+
+	@Column(insertable=false, updatable=false)
+	private int predmet_idPredmet;
+
+	@Column(insertable=false, updatable=false)
+	private int uloga_idUloga;
+
+	public PredmetstudentPK() {
+	}
+	public int getPredmet_idPredmet() {
+		return this.predmet_idPredmet;
+	}
+	public void setPredmet_idPredmet(int predmet_idPredmet) {
+		this.predmet_idPredmet = predmet_idPredmet;
+	}
+	public int getUloga_idUloga() {
+		return this.uloga_idUloga;
+	}
+	public void setUloga_idUloga(int uloga_idUloga) {
+		this.uloga_idUloga = uloga_idUloga;
+	}
+
+	public boolean equals(Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (!(other instanceof PredmetstudentPK)) {
+			return false;
+		}
+		PredmetstudentPK castOther = (PredmetstudentPK)other;
+		return 
+			(this.predmet_idPredmet == castOther.predmet_idPredmet)
+			&& (this.uloga_idUloga == castOther.uloga_idUloga);
+	}
+
+	public int hashCode() {
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + this.predmet_idPredmet;
+		hash = hash * prime + this.uloga_idUloga;
+		
+		return hash;
+	}
+}

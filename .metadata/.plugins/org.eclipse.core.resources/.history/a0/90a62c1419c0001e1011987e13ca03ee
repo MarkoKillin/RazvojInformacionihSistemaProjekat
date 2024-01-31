@@ -1,0 +1,102 @@
+package com.mudl.backend.services;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.mudl.backend.exceptions.InvalidMethodParameterException;
+import com.mudl.backend.repositories.KorisnikRepository;
+import com.mudl.backend.repositories.PredmetKorisnikRepository;
+import com.mudl.backend.repositories.PredmetRepository;
+import com.mudl.backend.repositories.UlogaRepository;
+
+import model.Korisnik;
+import model.Predmet;
+import model.Predmetkorisnik;
+import model.Uloga;
+
+@Service
+public class AdminService {
+
+	@Autowired
+	private PredmetRepository pr;
+
+	@Autowired
+	private KorisnikRepository kr;
+
+	@Autowired
+	private PredmetKorisnikRepository pkr;
+
+	@Autowired
+	private UlogaRepository ur;
+
+	@Autowired
+	private PasswordEncoder encoder;
+
+	public int savePredmet(String naziv) {
+		Predmet p = new Predmet();
+		p.setNaziv(naziv);
+		Predmet p1 = pr.save(p);
+		if (p1 != null)
+			return p1.getIdPredmet();
+		return -1;
+	}
+
+	public List<Korisnik> getProfesors() {
+		return kr.getProfesors();
+	}
+
+	public List<Predmet> getPredmets() {
+		return pr.findAll();
+	}
+
+	public int saveProfesor(int idPredmet, int idKorisnik) {
+		Predmetkorisnik pk = new Predmetkorisnik();
+		pk.setBrojBodova(-100);
+		Predmet p;
+		Korisnik k;
+		try {
+			p = pr.findById(idPredmet).get();
+			k = kr.findById(idPredmet).get();
+		} catch (NoSuchElementException e) {
+			return -1;
+		}
+		pk.setKorisnik(k);
+		pk.setPredmet(p);
+		Predmetkorisnik pk1 = pkr.save(pk);
+		if (pk1 != null)
+			return pk1.getIdPredmetKorisnik();
+		return -1;
+	}
+
+	public List<Uloga> getUloga() {
+		return ur.findAll();
+	}
+
+	public int saveKorisnik(String ime, String prezime, String email, String username, String password, int idUloga) {
+		Korisnik t = kr.findByUsername(username);
+		if(t != null)
+			throw new InvalidMethodParameterException("Username vec postoji.");
+		Korisnik k = new Korisnik();
+		k.setIme(ime);
+		k.setPrezime(prezime);
+		k.setEmail(email);
+		k.setUsername(username);
+		k.setPassword(encoder.encode(password));
+		Uloga u;
+		try {
+			u = ur.findById(idUloga).get();
+		} catch (NoSuchElementException e) {
+			return -1;
+		}
+		k.setUloga(u);
+		Korisnik k1 = kr.save(k);
+		if (k1 != null)
+			return k1.getIdKorisnik();
+		return -1;
+	}
+
+}

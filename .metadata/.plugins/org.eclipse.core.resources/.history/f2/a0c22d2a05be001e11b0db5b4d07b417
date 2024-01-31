@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+:root {
+	--primary-color: #E1F0DA;
+	--secondary-color: #D4E7C5;
+	--accent-color: #BFD8AF;
+	--highlight-color: #99BC85;
+}
+
+body {
+	font-family: 'Arial', sans-serif;
+	background-color: var(--primary-color);
+	color: black;
+	height: 100vh;
+	margin: 0%;
+}
+
+header {
+	background-color: var(--secondary-color);
+	padding: 5px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+header nav {
+    display: flex;
+    justify-content: right;
+}
+
+footer {
+	background-color: var(--secondary-color);
+	padding: 10px;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+
+button {
+	background-color: var(--highlight-color);
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+button:hover {
+	background-color: var(--primary-color);
+	color: black;
+}

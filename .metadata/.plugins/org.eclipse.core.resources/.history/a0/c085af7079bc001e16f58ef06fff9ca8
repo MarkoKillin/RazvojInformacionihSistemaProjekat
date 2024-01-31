@@ -1,0 +1,15 @@
+package com.mudl.backend.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import model.Predmetkorisnik;
+
+public interface PredmetKorisnikRepository extends JpaRepository<Predmetkorisnik, Integer>{
+
+	@Query("select pk from Predmetkorisnik pk "
+			+ "where pk.predmet.idPredmet = :idP and pk.korisnik.idKorisnik = :idS")
+	Predmetkorisnik getPredmetorisnik(@Param("idS") int idStudent,@Param("idP") int idPredmet);
+
+}

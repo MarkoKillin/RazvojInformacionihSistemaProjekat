@@ -1,0 +1,47 @@
+package com.mudl.backend.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mudl.backend.repositories.AnketaRepository;
+import com.mudl.backend.repositories.IzborRepository;
+import com.mudl.backend.repositories.KorisnikRepository;
+import com.mudl.backend.repositories.MaterijalRepository;
+import com.mudl.backend.repositories.PredmetKorisnikRepository;
+import com.mudl.backend.repositories.PredmetRepository;
+import com.mudl.backend.repositories.ZadatakRepository;
+
+import model.Korisnik;
+
+@Service
+public class StudentService {
+	
+	@Autowired
+	private KorisnikRepository kr;
+	
+//	@Autowired
+//	private PredmetRepository pr;
+//	
+//	@Autowired
+//	private PredmetKorisnikRepository pkr;
+//	
+//	@Autowired
+//	private ZadatakRepository zr;
+//	
+//	@Autowired
+//	private MaterijalRepository mr;
+//	
+//	@Autowired
+//	private AnketaRepository ar;
+//	
+//	@Autowired
+//	private IzborRepository ir;
+
+	/**
+	 * Trazi korisnika(student) koji ima prosledjeno ime
+	 */
+	public Korisnik getStudent(String name) {
+		return kr.getStudentByName(name);
+	}
+
+}

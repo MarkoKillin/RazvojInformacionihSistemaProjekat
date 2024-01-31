@@ -1,0 +1,40 @@
+package com.mudl.backend.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.mudl.backend.repositories.KorisnikRepository;
+import com.mudl.backend.repositories.UlogaRepository;
+
+import model.Korisnik;
+
+@Controller
+public class LoginController {
+	
+	@Autowired
+	PasswordEncoder pe;
+	
+	@Autowired
+	KorisnikRepository kr;
+	
+	@Autowired
+	UlogaRepository ur;
+	
+	@RequestMapping("/")
+	public String getHomePage() {
+		
+		Korisnik k = new Korisnik();
+		k.setIme("Nebojsa");
+		k.setPrezime("Kucalovic");
+		k.setEmail("MailNebojsa");
+		k.setUsername("student");
+		k.setPassword(pe.encode("student"));
+		k.setUloga(ur.getByNaziv("Student"));
+		kr.save(k);
+		return "login";
+	}
+	
+
+}

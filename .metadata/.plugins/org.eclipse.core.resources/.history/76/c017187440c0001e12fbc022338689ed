@@ -1,0 +1,227 @@
+package com.mudl.backend.controllers;
+
+import java.security.Principal;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.mudl.backend.exceptions.InvalidMethodParameterException;
+import com.mudl.backend.exceptions.InvalidOperationException;
+import com.mudl.backend.services.ProfesorService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import model.Izbor;
+import model.Korisnik;
+import model.Predmet;
+
+/**
+ * @author Marko Mirkovic
+ * 
+ *         https://github.com/MarkoKillin
+ * 
+ *         Purpose of this controller is to handle requests for "profesor" role
+
+ */
+
+@Controller
+@RequestMapping("/profesor/")
+public class ProfesorController {
+
+	@Autowired
+	private ProfesorService ps;
+
+	@GetMapping("getPredmetForProfesor")
+	public String getPredmetForProfesor(HttpServletRequest req, Principal p) {
+		List<Predmet> lp = ps.getPredmetForProfesor(ps.getProfesor(p.getName()));
+		req.setAttribute("listPredmet", lp);
+		return "home";
+	}
+
+	@GetMapping("prikazPredmeta")
+	public String prikazPredmeta(HttpServletRequest req, Principal p, @RequestParam("idPredmet") int idPredmet) {
+		req.getSession().setAttribute("predmet", ps.findPredmetById(idPredmet));
+		return "prikaz_predmeta";
+	}
+
+	@GetMapping("getZadatak")
+	public String getZadatak(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet) {
+		req.setAttribute("listaZadataka", ps.getZadatak(idPredmet));
+		return "prikaz_detalja_predmeta";
+	}
+
+	@GetMapping("getMaterijal")
+	public String getMaterijal(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet) {
+		req.setAttribute("listaMaterijala", ps.getMaterijal(idPredmet));
+		return "prikaz_detalja_predmeta";
+	}
+
+	@GetMapping("getStudent")
+	public String getStudent(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet) {
+		req.setAttribute("listaStudenata", ps.getStudentForPredmet(idPredmet));
+		return "prikaz_detalja_predmeta";
+	}
+
+	@GetMapping("getAddBodovi")
+	public String getAddBodovi(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet) {
+		req.setAttribute("listaStudenata", ps.getStudentForPredmet(idPredmet));
+		return "dodavanje_bodova";
+	}
+
+	@PostMapping("addBodoviForStudent")
+	public String addBodoviForStudent(HttpServletRequest req, Principal p, @RequestParam("idKorisnik") int idStudent,
+			@RequestParam("idPredmet") int idPredmet, @RequestParam("bodovi") double bodovi) {
+		double saved;
+		try {
+			saved = ps.addBodoviForStudentOnPredmet(p.getName(), idStudent, idPredmet, bodovi);
+			if (saved == -1)
+				req.setAttribute("message", "Doslo je do greske prilikom cuvanja.");
+			else
+				req.setAttribute("message", "Uspesno cuvanje. Nov broj bodova je: " + saved);
+		} catch (InvalidOperationException e) {
+			req.setAttribute("message", e.getMessage());
+		} catch (InvalidMethodParameterException e) {
+			req.setAttribute("message", e.getMessage());
+		}
+		return "prikaz_predmeta";
+	}
+
+	@GetMapping("getAddZadatak")
+	public String getAddZadatak() {
+		return "dodavanje_zadatka";
+	}
+
+	@PostMapping("addZadatak")
+	public String addZadatak(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet,
+			@RequestParam("naziv") String naziv, @RequestParam("sadrzaj") String sadrzaj,
+			@RequestParam("datum") @DateTimeFormat(pattern = "yyyy-MM-dd") Date rok) {
+		try {
+			int newId = ps.addZadatak(idPredmet, naziv, sadrzaj, rok);
+			if (newId == -1)
+				req.setAttribute("message", "Doslo je do greske prilikom cuvanja.");
+			else
+				req.setAttribute("message", "Uspesno cuvanje. Id zadatka je: " + newId);
+		} catch (InvalidMethodParameterException e) {
+			req.setAttribute("message", e.getMessage());
+		}
+		return "prikaz_predmeta";
+	}
+
+	@GetMapping("getAddMaterijal")
+	public String getAddMaterijal() {
+		return "dodavanje_materijala";
+	}
+
+	@PostMapping("addMaterijal")
+	public String addMaterijal(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet,
+			@RequestParam("naziv") String naziv, @RequestParam("sadrzaj") String sadrzaj) {
+		try {
+			int newId = ps.addMaterijal(idPredmet, naziv, sadrzaj);
+			if (newId == -1)
+				req.setAttribute("message", "Doslo je do greske prilikom cuvanja.");
+			else
+				req.setAttribute("message", "Uspesno cuvanje. Id materijala je: " + newId);
+		} catch (InvalidMethodParameterException e) {
+			req.setAttribute("message", e.getMessage());
+		}
+		return "prikaz_predmeta";
+	}
+
+	@GetMapping("getAddAnketa")
+	public String getAddAnketa() {
+		return "dodavanje_ankete";
+	}
+
+	@PostMapping("addAnketa")
+	public String addAnketa(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet,
+			@RequestParam("naziv") String naziv, @RequestParam("sadrzaj") String sadrzaj) {
+		try {
+			int newId = ps.addAnketa(idPredmet, naziv, sadrzaj);
+			if (newId == -1)
+				req.setAttribute("message", "Doslo je do greske prilikom cuvanja.");
+			else
+				req.setAttribute("message", "Uspesno cuvanje. Id ankete je: " + newId);
+		} catch (InvalidMethodParameterException e) {
+			req.setAttribute("message", e.getMessage());
+		}
+		return "prikaz_predmeta";
+	}
+
+	@GetMapping("getAddIzbor")
+	public String getAddIzbor(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet) {
+		req.setAttribute("listaAnketa", ps.getAnketeZaPredmet(idPredmet));
+		return "dodavanje_izbora";
+	}
+
+	@PostMapping("addIzbor")
+	public String addIzbor(HttpServletRequest req,
+			@RequestParam("idAnketa") int idAnketa, @RequestParam("naziv") String naziv) {
+		try {
+			int newId = ps.addIzbor(idAnketa, naziv);
+			if (newId == -1)
+				req.setAttribute("message", "Doslo je do greske prilikom cuvanja.");
+			else
+				req.setAttribute("message", "Uspesno cuvanje. Id izbora je: " + newId);
+		} catch (InvalidMethodParameterException e) {
+			req.setAttribute("message", e.getMessage());
+		}
+		return "prikaz_predmeta";
+	}
+	
+	@GetMapping("getAnketa")
+	public String getAnketa(HttpServletRequest req, @RequestParam("idPredmet") int idPredmet) {
+		req.setAttribute("listaAnketa", ps.getAnketeZaPredmet(idPredmet));
+		return "rezultati_ankete";
+	}
+
+	@GetMapping("getAnketaResults")
+	public String getAnketaResults(HttpServletRequest req, @RequestParam("idAnketa") int idAnketa) {
+		List<Izbor> listIzbor = ps.getIzbors(idAnketa);
+		List<List<Korisnik>> listIzborResults = ps.getResults(listIzbor);
+		List<Integer> listaDuzina = ps.getDuzine(listIzborResults);
+		req.setAttribute("anketa", ps.getAnketaById(idAnketa));
+		req.setAttribute("listaIzbora", listIzbor);
+		req.setAttribute("listaRezultata", listIzborResults);
+		req.setAttribute("listaDuzina", listaDuzina);
+		return "rezultati_ankete";
+	}
+	
+	@GetMapping("getUpdateProfile")
+	public String getUpdateProfile(HttpServletRequest req, Principal p) {
+		req.setAttribute("profil", ps.getKorisnikByUsername(p.getName()));
+		return "uredi_profil";
+	}
+	
+	@PostMapping("updateProfile")
+	public String updateProfile(HttpServletRequest req, @RequestParam("ime") String ime, @RequestParam("prezime") String prezime,
+			@RequestParam("email") String email, @RequestParam("username") String username, @RequestParam("password") String password,
+			@RequestParam("npassword") String npassword, Principal p) {
+		int id = -1;
+		try {
+			id = ps.updateProfile(ime, prezime, email, username, password, npassword, p);
+			if (id == -1)
+				req.setAttribute("message", "Došlo je do greške prilikom čuvanja.");
+			else
+				req.setAttribute("message", "Uspešno čuvanje. Id korisnika je: " + id);
+		} catch (InvalidMethodParameterException e) {
+			req.setAttribute("message", e.getMessage());
+		}
+		return "home";
+	}
+
+	@GetMapping("home")
+	public String getHome() {
+		return "home";
+	}
+	
+	@GetMapping("o_nama")
+	public String getNas() {
+		return "o_nama";
+	}
+}

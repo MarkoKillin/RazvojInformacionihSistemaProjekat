@@ -1,0 +1,13 @@
+package com.mudl.backend.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Izbor;
+
+public interface IzborRepository extends JpaRepository<Izbor, Integer>{
+
+	List<Izbor> getIzborAnketa(int idAnketa);
+
+}

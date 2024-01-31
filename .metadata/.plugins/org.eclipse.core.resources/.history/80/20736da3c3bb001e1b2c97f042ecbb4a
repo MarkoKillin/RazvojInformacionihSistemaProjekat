@@ -1,0 +1,38 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mudl</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/loginStyle.css">
+</head>
+<body>
+	<!-- 
+		ovde ce biti login najverovatnije, trenutno samo ulazak kod profesora ili studenta
+	 -->
+
+
+	<div class="login-container">
+		<form action="your-login-processing-script.php" method="post">
+			<div id="dobrodosli">
+				<h1>Dobro došli na Mudl</h1>
+			</div>
+			<label for="username">Korisničko ime:</label> 
+			<input type="text" id="username" name="username" required>
+			<label for="password">Lozinka:</label> 
+			<input type="password" id="password" name="password" required> <br>
+			<button type="submit">Ulogujte se</button>
+		</form>
+		<br> 
+		<a href="profesor/home"><button>Profesor</button></a> <br> <br>
+		<a href="student/home"><button>Student</button></a>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+package com.mudl.backend.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mudl.backend.repositories.KorisnikRepository;
+import com.mudl.backend.repositories.PredmetRepository;
+
+import model.Korisnik;
+import model.Predmet;
+
+@Service
+public class AdminService {
+	
+	@Autowired
+	private PredmetRepository pr;
+	
+	@Autowired
+	private KorisnikRepository kr;
+
+	public int savePredmet(String naziv) {
+		Predmet p = new Predmet();
+		p.setNaziv(naziv);
+		Predmet p1 = pr.save(p);
+		if (p1 != null)
+			return p1.getIdPredmet();
+		return -1;
+	}
+
+	public List<Korisnik> getProfesors() {
+		return null;
+	}
+
+	public List<Predmet> getPredmets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

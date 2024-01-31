@@ -1,0 +1,13 @@
+package com.mudl.backend.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Zadatak;
+
+public interface ZadatakRepository extends JpaRepository<Zadatak, Integer>{
+
+	List<Zadatak> getZadaciSaPredmeta(int idPredmet);
+
+}

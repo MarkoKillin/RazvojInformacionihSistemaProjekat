@@ -1,0 +1,100 @@
+package model;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the anketa database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Anketa.findAll", query="SELECT a FROM Anketa a")
+public class Anketa implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idAnketa;
+
+	private byte anonimna;
+
+	private String naziv;
+
+	private String sadrzaj;
+
+	//bi-directional many-to-one association to Predmet
+	@ManyToOne
+	private Predmet predmet;
+
+	//bi-directional many-to-one association to Izbor
+	@OneToMany(mappedBy="anketa")
+	private List<Izbor> izbors;
+
+	public Anketa() {
+	}
+
+	public int getIdAnketa() {
+		return this.idAnketa;
+	}
+
+	public void setIdAnketa(int idAnketa) {
+		this.idAnketa = idAnketa;
+	}
+
+	public byte getAnonimna() {
+		return this.anonimna;
+	}
+
+	public void setAnonimna(byte anonimna) {
+		this.anonimna = anonimna;
+	}
+
+	public String getNaziv() {
+		return this.naziv;
+	}
+
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+
+	public String getSadrzaj() {
+		return this.sadrzaj;
+	}
+
+	public void setSadrzaj(String sadrzaj) {
+		this.sadrzaj = sadrzaj;
+	}
+
+	public Predmet getPredmet() {
+		return this.predmet;
+	}
+
+	public void setPredmet(Predmet predmet) {
+		this.predmet = predmet;
+	}
+
+	public List<Izbor> getIzbors() {
+		return this.izbors;
+	}
+
+	public void setIzbors(List<Izbor> izbors) {
+		this.izbors = izbors;
+	}
+
+	public Izbor addIzbor(Izbor izbor) {
+		getIzbors().add(izbor);
+		izbor.setAnketa(this);
+
+		return izbor;
+	}
+
+	public Izbor removeIzbor(Izbor izbor) {
+		getIzbors().remove(izbor);
+		izbor.setAnketa(null);
+
+		return izbor;
+	}
+
+}

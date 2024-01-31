@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;MudlWeb/src/main/webapp/profesor_pages&apos;" deleteContents="false" description="Delete resource &apos;MudlWeb/src/main/webapp/profesor_pages&apos;" element1="/MudlWeb/src/main/webapp/profesor_pages" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1706477304920"/>
+</session>

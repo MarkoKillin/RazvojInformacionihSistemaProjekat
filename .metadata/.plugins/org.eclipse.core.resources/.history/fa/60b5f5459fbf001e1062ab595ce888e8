@@ -1,0 +1,60 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+	<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+</head>
+<body>
+	<sec:authorize access="hasRole('Admin')">
+		<%@include file="headers/admin_header.jsp"%>
+	</sec:authorize>
+	
+	<sec:authorize access="hasRole('Profesor')">
+		<%@include file="headers/profesor_header.jsp"%>
+	</sec:authorize>
+	
+	<sec:authorize access="hasRole('Student')">
+		<%@include file="headers/student_header.jsp"%>
+	</sec:authorize>
+	
+
+	<sec:authorize access="hasRole('Profesor')">
+		<div>
+		<c:choose>
+			<c:if test="${!empty listPredmet}">
+			<h2>Spisak Vaših predmeta:</h2>
+			<br>
+			<c:forEach items="${listPredmet}" var="p">
+				<a href="/Mudl/profesor/prikazPredmeta?idPredmet=${p.idPredmet}"><button class="dugmepredmet">${p.naziv }</button></a>
+				<br>
+			</c:forEach>
+			</c:if>
+			</c:choose>
+		</div>
+	</sec:authorize>
+	
+	<sec:authorize access="hasRole('Student')">
+		<div>
+			<c:if test="${!empty listPredmet}">
+			<h2>Spisak Vaših predmeta:</h2>
+			<br>
+			<c:forEach items="${listPredmet}" var="p">
+				<a href="/Mudl/student/prikazPredmeta?idPredmet=${p.idPredmet}"><button class="dugmepredmet">${p.naziv }</button></a>
+				<br>
+			</c:forEach>
+			</c:if>
+		</div>
+	</sec:authorize>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Prikaz Detalja</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+</head>
+<body>
+	<sec:authorize access="hasRole('Admin')">
+		<%@include file="headers/admin_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Profesor')">
+		<%@include file="headers/profesor_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Student')">
+		<%@include file="headers/student_header.jsp"%>
+	</sec:authorize>
+
+	<c:if test="${!empty listaZadataka}">
+
+		<c:if test="${predmet != null}">
+			<h2>${predmet.naziv}- Spisak Zadataka:</h2>
+		</c:if>
+
+		<table>
+			<tr>
+				<th style="width: 80px;">Naziv</th>
+				<th style="width: 40px;">Rok za predaju</th>
+				<th>Sadrzaj</th>
+			</tr>
+			<c:forEach items="${listaZadataka}" var="z">
+				<tr>
+					<td>${z.naziv}</td>
+					<td>${z.rokZaPredaju}</td>
+					<td>${z.sadrzaj}</td>
+				</tr>
+			</c:forEach>
+		</table>
+
+	</c:if>
+
+	<c:if test="${!empty listaMaterijala}">
+
+		<c:if test="${predmet != null}">
+			<h2>${predmet.naziv}- Spisak Materijala:</h2>
+		</c:if>
+
+		<table>
+			<tr>
+				<th style="width: 80px;">Naziv</th>
+				<th>Sadrzaj</th>
+			</tr>
+			<c:forEach items="${listaMaterijala}" var="z">
+				<tr>
+					<td>${z.naziv}</td>
+					<td>${z.sadrzaj}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</c:if>
+
+	<c:if test="${!empty listaStudenata}">
+
+		<c:if test="${predmet != null}">
+			<h2>${predmet.naziv}- Spisak Studenata:</h2>
+		</c:if>
+		
+		<table>
+			<tr>
+				<th>Ime</th>
+				<th>Prezime</th>
+				<th>Email</th>
+			</tr>
+			<c:forEach items="${listaStudenata}" var="z">
+				<tr>
+					<td>${z.ime}</td>
+					<td>${z.prezime}</td>
+					<td>${z.email}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</c:if>
+
+</body>
+</html>

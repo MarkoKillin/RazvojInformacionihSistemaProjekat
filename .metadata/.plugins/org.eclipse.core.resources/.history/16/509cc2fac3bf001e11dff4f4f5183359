@@ -1,0 +1,5 @@
+package com.mudl.backend.services;
+
+public class AdminService {
+
+}

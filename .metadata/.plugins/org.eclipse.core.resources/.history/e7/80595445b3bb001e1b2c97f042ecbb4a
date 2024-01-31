@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mudl Profesor Home</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css">
+</head>
+<body>
+	 
+	 <!-- 
+	 pregled predmeta
+	 pregled studenata na predmetu
+	 upis ocene za studenta na predmetu
+	 dodavanje zadatka
+	 dodavanje materijala
+	 dodavanje studenta na predmet
+	 ocenjivanje zadataka
+	 
+	  -->
+	 
+</body>
+</html>

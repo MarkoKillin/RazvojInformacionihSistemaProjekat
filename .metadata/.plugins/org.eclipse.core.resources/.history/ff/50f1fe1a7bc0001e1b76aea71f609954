@@ -1,0 +1,13 @@
+package com.mudl.backend.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Zadatakkorisnik;
+
+public interface ZadatakKorisnikRepository extends JpaRepository<Zadatakkorisnik, Integer>{
+
+	List<Zadatakkorisnik> getResenja(int idPredmet);
+
+}

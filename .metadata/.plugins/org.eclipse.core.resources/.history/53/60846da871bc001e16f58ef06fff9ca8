@@ -1,0 +1,14 @@
+package com.mudl.backend.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Korisnik;
+import model.Predmet;
+
+public interface PredmetRepository extends JpaRepository<Predmet, Integer>{
+
+	List<Predmet> getPredmetForProfesor(Korisnik profesor);
+
+}

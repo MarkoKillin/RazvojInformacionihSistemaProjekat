@@ -1,0 +1,5 @@
+package com.mudl.backend.repositories;
+
+public interface MaterijalRepository {
+
+}

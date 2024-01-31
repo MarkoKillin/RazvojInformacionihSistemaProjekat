@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dodavanje Bodova</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+</head>
+<body>
+	<sec:authorize access="hasRole('Admin')">
+		<%@include file="headers/admin_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Profesor')">
+		<%@include file="headers/profesor_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Student')">
+		<%@include file="headers/student_header.jsp"%>
+	</sec:authorize>
+	
+	<form action="addBodoviForStudent" method="post">
+		<c:if test="${!empty listaStudenata}">
+	
+			<c:if test="${predmet != null}">
+				<h2>${predmet.naziv} - Spisak Studenata:</h2>
+			</c:if>
+			<select style="margin-left: 15px; width: 300px; height: 35px">
+				<c:forEach items="${listaStudenata}" var="z">
+					<option value="${z.idKorisnik}">${z.ime} ${z.prezime}</option>
+				</c:forEach>		
+			</select>
+		</c:if>
+
+		<input type="submit">	
+	</form>
+
+
+</body>
+</html>

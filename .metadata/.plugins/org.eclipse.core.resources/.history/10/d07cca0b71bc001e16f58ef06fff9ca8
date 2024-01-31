@@ -1,0 +1,16 @@
+package com.mudl.backend.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import model.Korisnik;
+
+public interface KorisnikRepository extends JpaRepository<Korisnik, Integer>{
+
+	Korisnik findByUsername(String username);
+
+	@Query("select k from Korisnik k where k.username = :name and k.uloga.naziv = 'Profesor'")
+	Korisnik getByName(@Param("name") String name);
+
+}

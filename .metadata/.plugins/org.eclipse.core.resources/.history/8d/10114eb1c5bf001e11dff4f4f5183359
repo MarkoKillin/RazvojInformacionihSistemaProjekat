@@ -1,0 +1,26 @@
+package com.mudl.backend.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mudl.backend.repositories.PredmetRepository;
+
+import model.Materijal;
+import model.Predmet;
+
+@Service
+public class AdminService {
+	
+	@Autowired
+	private PredmetRepository pr;
+
+	public int savePredmet(String naziv) {
+		Predmet p = new Predmet();
+		p.setNaziv(naziv);
+		Predmet p1 = pr.save(p);
+		if (p1 != null)
+			return p1.getIdPredmet();
+		return -1;
+	}
+
+}

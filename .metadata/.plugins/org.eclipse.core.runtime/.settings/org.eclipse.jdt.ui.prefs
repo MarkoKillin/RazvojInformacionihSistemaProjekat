@@ -1,0 +1,11 @@
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="model.Korisnik"><rhs name\="model.Korisnik"/></lhs><lhs name\="model.Zadatak"><rhs name\="model.Zadatak"/></lhs><lhs name\="model.Materijal"><rhs name\="model.Materijal"/></lhs><lhs name\="model.Anketa"><rhs name\="model.Anketa"/></lhs><lhs name\="model.Izbor"><rhs name\="model.Izbor"/></lhs><lhs name\="java.util.SequencedCollection"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.Collection"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.lang.Iterable"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="java.util.List"><rhs name\="java.util.LinkedList"/></lhs><lhs name\="model.Predmet"><rhs name\="model.Predmet"/></lhs><lhs name\="model.Predmetkorisnik"><rhs name\="model.Predmetkorisnik"/></lhs><lhs name\="model.Izborkorisnik"><rhs name\="model.Izborkorisnik"/></lhs><lhs name\="model.Zadatakkorisnik"><rhs name\="model.Zadatakkorisnik"/></lhs><lhs name\="java.io.Closeable"><rhs name\="java.io.ByteArrayInputStream"/></lhs><lhs name\="java.lang.AutoCloseable"><rhs name\="java.io.ByteArrayInputStream"/></lhs><lhs name\="java.io.InputStream"><rhs name\="java.io.ByteArrayInputStream"/></lhs><lhs name\="java.io.File"><rhs name\="java.io.File"/></lhs><lhs name\="org.springframework.util.MimeType"><rhs name\="org.springframework.http.MediaType"/></lhs><lhs name\="org.springframework.http.MediaType"><rhs name\="org.springframework.http.MediaType"/></lhs></history>
+content_assist_number_of_computers=19
+eclipse.preferences.version=1
+org.eclipse.jdt.internal.ui.navigator.layout=2
+org.eclipse.jdt.internal.ui.navigator.librariesnode=true
+org.eclipse.jdt.ui.formatterprofiles.version=23
+spelling_locale=en_GB
+spelling_locale_initialized=true
+typefilter_migrated_2=true
+useAnnotationsPrefPage=true
+useQuickDiffPrefPage=true

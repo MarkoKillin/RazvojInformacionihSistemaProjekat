@@ -1,0 +1,5 @@
+package com.mudl.backend.security;
+
+public class CustomUserDetailService {
+
+}

@@ -1,0 +1,55 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dodavanje Domaceg Zadatka</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+</head>
+<body>
+
+	<sec:authorize access="hasRole('Student')">
+		<%@include file="headers/student_header.jsp"%>
+	</sec:authorize>
+
+	<c:if test="${predmet != null}">
+		<form action="/Mudl/student/addPredajZadatak" method="post"
+			enctype="multipart/form-data">
+			<c:if test="${!empty listaZadataka}">
+				<div>
+					<h2>${predmet.naziv} - Spisak Zadataka:</h2>
+				</div>
+				<div>
+					<select name="idZadatak" style="width: 300px; height: 35px">
+						<c:forEach items="${listaZadataka}" var="z">
+							<option value="${z.idZadatak}">${z.naziv}</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div>
+					<h4>Sadržaj:</h4>
+					<input name="sadrzaj" type="text"
+						style="width: 300px; height: 35px">
+				</div>
+				<div>
+					<h4>Fajl:</h4>
+					<input name="file" type="file" style="width: 300px; height: 35px;">
+				</div>
+			</c:if>
+			<div>
+				<button type="submit">Dodaj</button>
+			</div>
+		</form>
+	</c:if>
+
+
+</body>
+</html>

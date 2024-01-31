@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Prikaz Detalja</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+</head>
+<body>
+
+	<sec:authorize access="hasRole('Profesor')">
+		<%@include file="headers/profesor_header.jsp"%>
+	</sec:authorize>
+
+	<c:if test="${!empty listaZadataka}">
+
+		<c:if test="${predmet != null}">
+			<h2>${predmet.naziv} - Spisak Zadataka:</h2>
+		</c:if>
+
+		<table>
+			<tr>
+				<th style="width: 260px;">Naziv</th>
+				<th style="width: 100px;">Rok za predaju</th>
+				<th>Sadrzaj</th>
+			</tr>
+			<c:forEach items="${listaZadataka}" var="z">
+				<tr>
+					<td>${z.naziv}</td>
+					<td>${z.rokZaPredaju}</td>
+					<td>${z.sadrzaj}</td>
+				</tr>
+			</c:forEach>
+		</table>
+
+	</c:if>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+package model;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the ocena database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Ocena.findAll", query="SELECT o FROM Ocena o")
+public class Ocena implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int idOcena;
+
+	private int brojBodova;
+
+	private String napomena;
+
+	private int vrednost;
+
+	//bi-directional many-to-one association to Predmetstudent
+	@OneToMany(mappedBy="ocena")
+	private List<Predmetstudent> predmetstudents;
+
+	public Ocena() {
+	}
+
+	public int getIdOcena() {
+		return this.idOcena;
+	}
+
+	public void setIdOcena(int idOcena) {
+		this.idOcena = idOcena;
+	}
+
+	public int getBrojBodova() {
+		return this.brojBodova;
+	}
+
+	public void setBrojBodova(int brojBodova) {
+		this.brojBodova = brojBodova;
+	}
+
+	public String getNapomena() {
+		return this.napomena;
+	}
+
+	public void setNapomena(String napomena) {
+		this.napomena = napomena;
+	}
+
+	public int getVrednost() {
+		return this.vrednost;
+	}
+
+	public void setVrednost(int vrednost) {
+		this.vrednost = vrednost;
+	}
+
+	public List<Predmetstudent> getPredmetstudents() {
+		return this.predmetstudents;
+	}
+
+	public void setPredmetstudents(List<Predmetstudent> predmetstudents) {
+		this.predmetstudents = predmetstudents;
+	}
+
+	public Predmetstudent addPredmetstudent(Predmetstudent predmetstudent) {
+		getPredmetstudents().add(predmetstudent);
+		predmetstudent.setOcena(this);
+
+		return predmetstudent;
+	}
+
+	public Predmetstudent removePredmetstudent(Predmetstudent predmetstudent) {
+		getPredmetstudents().remove(predmetstudent);
+		predmetstudent.setOcena(null);
+
+		return predmetstudent;
+	}
+
+}

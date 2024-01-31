@@ -1,0 +1,111 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+</head>
+<body>
+	<sec:authorize access="hasRole('Admin')">
+		<%@include file="headers/admin_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Profesor')">
+		<%@include file="headers/profesor_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Student')">
+		<%@include file="headers/student_header.jsp"%>
+	</sec:authorize>
+
+
+	<sec:authorize access="hasRole('Profesor')">
+		<div>
+			<c:choose>
+				<c:when test="${!empty listPredmet}">
+					<h2>Spisak Vaših predmeta:</h2>
+					<br>
+					<c:forEach items="${listPredmet}" var="p">
+						<a href="/Mudl/profesor/prikazPredmeta?idPredmet=${p.idPredmet}"><button
+								class="dugmepredmet">${p.naziv }</button></a>
+						<br>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<h1>Odaberite opciju:</h1>
+					<a href="/Mudl/profesor/getPredmetForProfesor"><button
+							style="margin-bottom: 15px;">Prikaz Predmeta</button></a>
+					<a href="/Mudl/profesor/getUpdateProfile"><button
+							style="margin-bottom: 15px;">Uredi Profil</button></a>
+					<a href="/Mudl/profesor/o_nama"><button
+							style="margin-bottom: 15px;">O nama</button></a>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${message != null}">
+				<h4>${message }</h4>
+			</c:if>
+		</div>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Student')">
+		<div>
+			<c:choose>
+				<c:when test="${!empty listPredmet}">
+					<h2>Spisak Vaših predmeta:</h2>
+					<br>
+					<c:forEach items="${listPredmet}" var="p">
+						<a href="/Mudl/student/prikazPredmeta?idPredmet=${p.idPredmet}"><button
+								class="dugmepredmet">${p.naziv }</button></a>
+						<br>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<h1>Odaberite opciju:</h1>
+					<a href="/Mudl/student/getPredmetForStudent"><button
+							style="margin-bottom: 15px;">Prikaz Predmeta</button></a>
+					<a href="/Mudl/student/getAddToPredmet"><button style="margin-bottom: 15px;">Dodaj
+							kurs</button></a>
+					<a href="/Mudl/student/getUpdateProfile"><button
+							style="margin-bottom: 15px;">Uredi Profil</button></a>
+					<a href="/Mudl/student/o_nama"><button
+							style="margin-bottom: 15px;">O nama</button></a>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${message != null}">
+				<h4>${message }</h4>
+			</c:if>
+		</div>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Admin')">
+		<div>
+
+			<h1>Odaberite opciju:</h1>
+			<a href="/Mudl/admin/getAddPredmet"><button
+					style="margin-bottom: 15px;">Dodaj Predmet</button></a> <a
+				href="/Mudl/admin/getAddProfesorForPredmet"><button
+					style="margin-bottom: 15px;">Dodaj Profesora na Predmet</button></a> <a
+				href="/Mudl/admin/getAddKorisnik"><button
+					style="margin-bottom: 15px;">Dodaj Korisnika</button></a> <a
+				href="/Mudl/admin/getClearPredmet"><button
+					style="margin-bottom: 15px;">Izbaci sve studente sa
+					predmeta</button></a> <a href="/Mudl/admin/getUpdateProfile"><button
+					style="margin-bottom: 15px;">Uredi Profil</button></a>
+
+			<c:if test="${message != null}">
+				<h4>${message }</h4>
+			</c:if>
+		</div>
+	</sec:authorize>
+
+</body>
+</html>

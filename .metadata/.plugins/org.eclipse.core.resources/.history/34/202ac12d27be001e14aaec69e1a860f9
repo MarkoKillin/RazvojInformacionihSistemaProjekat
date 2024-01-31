@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+.dugmepredmet {
+	margin-left: 15px;
+	margin-bottom: 15px;
+	width: 300px;
+}

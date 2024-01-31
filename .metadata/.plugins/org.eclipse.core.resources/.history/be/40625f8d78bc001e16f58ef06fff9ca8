@@ -1,0 +1,9 @@
+package com.mudl.backend.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import model.Predmetkorisnik;
+
+public interface PredmetKorisnikRepository extends JpaRepository<Predmetkorisnik, Integer>{
+
+}

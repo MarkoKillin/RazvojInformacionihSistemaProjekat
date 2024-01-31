@@ -1,0 +1,73 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/predmeti.css">
+<title>Prikaz Predmeta</title>
+</head>
+<body>
+	<sec:authorize access="hasRole('Admin')">
+		<%@include file="headers/admin_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Profesor')">
+		<%@include file="headers/profesor_header.jsp"%>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Student')">
+		<%@include file="headers/student_header.jsp"%>
+	</sec:authorize>
+
+
+	<sec:authorize access="hasRole('Profesor')">
+		<div>
+			<c:if test="${predmet != null}">
+				<h2>${predmet.naziv}-SpisakOpcija:</h2>
+			</c:if>
+			<a href="/Mudl/profesor/getZadatak?idPredmet=${predmet.idPredmet}"><button
+					class="dugmepredmet">Prikaz Zadataka</button></a> <a
+				href="/Mudl/profesor/getMaterijal?idPredmet=${predmet.idPredmet}"><button
+					class="dugmepredmet">Prikaz Materijala</button></a> <a
+				href="/Mudl/profesor/getStudent?idPredmet=${predmet.idPredmet}"><button
+					class="dugmepredmet">Prikaz Studenata</button></a> <a
+				href="/Mudl/profesor/getAddBodovi?idPredmet=${predmet.idPredmet}"><button
+					class="dugmepredmet">Dodaj Bodove</button></a> <a
+				href="/Mudl/profesor/getAddZadatak"><button class="dugmepredmet">Dodaj
+					Zadatak</button></a> <a href="/Mudl/profesor/getAddMaterijal"><button
+					class="dugmepredmet">Dodaj Materijal</button></a> <a
+				href="/Mudl/profesor/getAddAnketa"><button class="dugmepredmet">Dodaj
+					Anketu</button></a> <a
+				href="/Mudl/profesor/getAddIzbor?idPredmet=${predmet.idPredmet}"><button
+					class="dugmepredmet">Dodaj Izbor</button></a> <a
+				href="/Mudl/profesor/getAnketa?idPredmet=${predmet.idPredmet}"><button
+					class="dugmepredmet">Rezultati Ankete</button></a>
+			<c:if test="${message != null}">
+				<h4>${message }</h4>
+			</c:if>
+		</div>
+	</sec:authorize>
+
+	<sec:authorize access="hasRole('Student')">
+		<div>
+			<c:if test="${predmet != null}">
+				<h2>${predmet.naziv}-SpisakOpcija:</h2>
+			</c:if>
+			<a href=""><button class="dugmepredmet">Prikaz Zadataka</button></a>
+			<a href=""><button class="dugmepredmet">Prikaz Materijala</button></a> 
+			<a href=""><button class="dugmepredmet">Glasaj na Anketi</button></a>
+			<c:if test="${message != null}">
+				<h4>${message }</h4>
+			</c:if>
+		</div>
+	</sec:authorize>
+</body>
+</html>
